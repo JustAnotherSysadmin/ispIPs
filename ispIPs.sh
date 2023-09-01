@@ -27,13 +27,8 @@
 # This is the list of IPs that will be written to a temp file
 TEMPIPLISTFILE=/tmp/tempIPlistfile.txt
 
-# List of IPs to be converted to CIDR notation
-IPINQUESTION=''
-
 # command line input
 IPINQUESTION=$1
-
-
 
 
 ################################################
@@ -132,7 +127,6 @@ WHOISURL=`whois $IPINQUESTION | grep "^Ref:" | grep entity | awk '{print $2}'`
 while IFS= read -r line
 do
         #echo $line
-        #wget --quiet $line --output-document=- | grep -e startAddress -e endAddress | awk '{print $3}' | awk -F'"' '{print $2}' | sed 'N;s/\n/ /' | grep -v "2605" >> $TEMPIPLISTFILE
         wget --quiet $line --output-document=- | grep -e startAddress -e endAddress | awk '{print $3}' | awk -F'"' '{print $2}' | sed 'N;s/\n/ /' | grep -v ":" >> $TEMPIPLISTFILE
 done <<< "$WHOISURL"
 
